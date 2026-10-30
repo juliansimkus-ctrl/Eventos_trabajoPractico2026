@@ -17,6 +17,8 @@ return new class extends Migration
     $table->string('name'); // Ejemplo: "Bodas"
     $table->string('slug')->unique();
     $table->text('description')->nullable();
+    $table->decimal('base_price', 10, 2)->default(0);
+    $table->decimal('price_per_guest', 10, 2)->default(0);
     $table->timestamps();
         });
         

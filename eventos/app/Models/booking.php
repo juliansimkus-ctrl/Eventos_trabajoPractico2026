@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class booking extends Model
+class Booking extends Model
 {
     protected $fillable = [
         'event_category_id',
@@ -28,5 +28,13 @@ class booking extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(EventCategory::class, 'event_category_id');
+    }
+
+    //calculamos el precio estimado
+    public function precioEstimado(): float
+    {
+        $guests = $this->estimated_guests ?? 0;
+        //precio final: precio base + (invitados x precio por persona)
+         return $this->category->base_price + ($guests * $this->category->price_per_guest);
     }
 }

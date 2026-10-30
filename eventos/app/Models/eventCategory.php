@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class eventCategory extends Model
+class EventCategory extends Model
 {
     // Permitimos la asignación masiva de estos campos
-    protected $fillable = ['name', 'slug', 'description'];
+    protected $fillable = ['name', 'slug', 'description', 'base_price', 'price_per_guest'];
 
     /**
      * Una categoría tiene muchos proyectos en el porfolio.
@@ -26,3 +26,4 @@ class eventCategory extends Model
         return $this->hasMany(Booking::class);
     }
 }
+

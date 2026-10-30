@@ -15,16 +15,21 @@
     <form action="{{ route('bookings.store') }}" method="POST">
         @csrf
 
-        <label for="categoria">Categoria: </label>
-        <select id="categoria" name="event_category_id">
-            <option value=""></option>
-            <option value="infantil">Cumpleaños infantil</option>
-            <option value="quince">Fiesta de 15</option>
-            <option value="boda">Boda</option>
-            <option value="babyshower">Baby shower</option>
-            <option value="bautismo">Bautismo</option>
-            <option value="cumpleaniosAdulto">Cumpleaños de adulto</option>
-        </select>
+        <p>Tipo de evento</p>
+        <div class="categorias">
+            @foreach ($categories as $category)
+            <label class="tarjeta-categoria">
+                <input type="radio"
+                   name="event_category_id"
+                   value="{{ $category->id }}"
+                   {{ old('event_category_id') == $category->id ? 'checked' : '' }}
+                   required>
+            <strong>{{ $category->name }}</strong>
+            <p>{{ $category->description }}</p>
+            </label>
+            @endforeach
+        </div>
+        @error('event_category_id') <p class="error">{{ $message }}</p> @enderror
 
         <label for="nombre">Nombre: </label>
         <input id="nombre" name="client_name" value="" required>

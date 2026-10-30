@@ -30,7 +30,7 @@ class ProjectController extends Controller
         $projects = $query->latest()->get();
 
         // Retornamos la vista del porfolio pasándole los datos
-        return view('portfolio.index', compact('projects', 'categories'));
+        return view('porfolio.index', compact('projects', 'categories'));
     }
 
     /**
@@ -40,6 +40,6 @@ class ProjectController extends Controller
     {
         $project = Project::where('slug', $slug)->firstOrFail();
         
-        return view('portfolio.show', compact('project'));
+        return view('porfolio.show', compact('project'));
     }
 }

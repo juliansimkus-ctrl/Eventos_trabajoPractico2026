@@ -44,10 +44,10 @@
         <input id="fecha" type="date" name="estimated_date" value="" required>
 
         <label for="invitados">Cantidad de invitados: </label>
-        <input id="invitados" name="estimated_guests" type="number" min="1">
+        <input id="invitados" name="estimated_guests" type="number" min="1" required>
 
         <label for="ideas">Recomendaciones: </label>
-        <textarea id="ideas" name="ideas_or_details" required></textarea>
+        <textarea id="ideas" name="ideas_or_details"></textarea>
 
         <button type="submit">Enviar</button>
     </form>

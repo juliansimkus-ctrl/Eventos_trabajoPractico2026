@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\EventCategory;
 use Illuminate\Http\Request;
+//para usar la liibreria
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookingController extends Controller
 {
@@ -32,12 +34,22 @@ class BookingController extends Controller
             'estimated_guests'  => 'nullable|integer|min:1',
             'ideas_or_details'  => 'nullable|string|max:2000',
         ]);
+        
+        // Guardamos la solicitud y nos quedamos con el Booking creado (incluye su id)
+        // guarda en la base y devuelve el objeto creado, que ya tiene el id que le asignó la base.
+        $booking = Booking::create($validated);
+        
+        // Redirigimos al presupuesto en PDF de esa solicitud
+        return redirect()->route('bookings.pdf', $booking->id);
+    }
 
-        // Guardamos en la base de datos usando asignación masiva
-        Booking::create($validated);
-
-        // Redireccionamos al cliente con un mensaje de éxito
-        return redirect()->route('bookings.create')
-            ->with('success', '¡Tu solicitud fue enviada con éxito! La decoradora se pondrá en contacto pronto.');
+    /**
+     ** Genera y descarga el presupuesto en PDF de una solicitud.
+     */
+    public function pdf(Booking $booking)
+    {
+        $pdf = Pdf::loadView('bookings.pdf', compact('booking'));
+        
+        return $pdf->stream('presupuesto-' . $booking->id . '.pdf');
     }
 }

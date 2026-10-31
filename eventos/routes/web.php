@@ -13,3 +13,4 @@ Route::get('/porfolio/{slug}', [ProjectController::class, 'show'])->name('porfol
 // Rutas del Formulario de Cotizacion
 Route::get('/contacto', [BookingController::class, 'create'])->name('bookings.create');
 Route::post('/contacto', [BookingController::class, 'store'])->name('bookings.store');
+Route::get('/contacto/{booking}/presupuesto', [BookingController::class, 'pdf'])->name('bookings.pdf');

@@ -31,7 +31,7 @@ class BookingController extends Controller
             'client_email'      => 'required|email|max:255',
             'client_phone'      => 'nullable|string|max:50',
             'estimated_date'    => 'required|date|after:today', // La fiesta debe ser a futuro
-            'estimated_guests'  => 'nullable|integer|min:1',
+            'estimated_guests'  => 'required|integer|min:1|max:350',
             'ideas_or_details'  => 'nullable|string|max:2000',
         ]);
         

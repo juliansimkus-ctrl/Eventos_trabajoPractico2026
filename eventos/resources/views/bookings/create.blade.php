@@ -65,7 +65,8 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="md:col-span-1">
                 <label for="telefono" class="block text-sm font-semibold text-stone-700 mb-1">Número de teléfono</label>
-                <input id="telefono" type="tel" name="client_phone" maxlength="50" value="{{ old('client_phone') }}" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-stone-800 focus:ring-2 focus:ring-amber-600/20 focus:border-amber-700 outline-none transition" required>
+                <input id="telefono" type="tel" name="client_phone" maxlength="50" value="{{ old('client_phone') }}" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-stone-800 focus:ring-2 focus:ring-amber-600/20 focus:border-amber-700 outline-none transition">
+
                 @error('client_phone') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 

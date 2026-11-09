@@ -21,6 +21,7 @@ return new class extends Migration
     $table->string('location')->nullable(); // Salón de eventos, quinta, etc.
     $table->date('event_date')->nullable();
     $table->boolean('is_featured')->default(false); // Para destacar en la home.
+        $table->string('image')->nullable(); //portada del porfolio
     $table->timestamps();
     });
 

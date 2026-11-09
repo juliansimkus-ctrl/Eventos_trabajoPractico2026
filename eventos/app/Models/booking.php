@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Booking extends Model
 {
@@ -31,10 +32,11 @@ class Booking extends Model
     }
 
     //calculamos el precio estimado
-    public function precioEstimado(): float
+    protected function precioEstimado(): Attribute
     {
-        $guests = $this->estimated_guests ?? 0;
-        //precio final: precio base + (invitados x precio por persona)
-         return $this->category->base_price + ($guests * $this->category->price_per_guest);
+        return Attribute::make(
+        get: fn () => $this->category->base_price
+                    + ($this->estimated_guests ?? 0) * $this->category->price_per_guest
+        );
     }
 }

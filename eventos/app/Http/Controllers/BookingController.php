@@ -42,14 +42,17 @@ class BookingController extends Controller
         // Redirigimos al presupuesto en PDF de esa solicitud
         return redirect()->route('bookings.pdf', $booking->id);
     }
-
+    
     /**
-     ** Genera y descarga el presupuesto en PDF de una solicitud.
+     ** Genera y muestra el presupuesto en PDF de una solicitud.
      */
-    public function pdf(Booking $booking)
+    public function pdf($id)
     {
+        // Buscamos la solicitud por su id; si no existe, Laravel responde 404
+        $booking = Booking::findOrFail($id);
+        
         $pdf = Pdf::loadView('bookings.pdf', compact('booking'));
         
         return $pdf->stream('presupuesto-' . $booking->id . '.pdf');
-    }
+        }
 }

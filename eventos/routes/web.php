@@ -10,7 +10,10 @@ Route::redirect('/', '/porfolio');
 Route::get('/porfolio', [ProjectController::class, 'index'])->name('porfolio.index');
 Route::get('/porfolio/{slug}', [ProjectController::class, 'show'])->name('porfolio.show');
 
+//usando AJAX
+Route::get('/api/proyectos', [ProjectController::class, 'filtrar'])->name('porfolio.filtrar');
+
 // Rutas del Formulario de Cotizacion
 Route::get('/contacto', [BookingController::class, 'create'])->name('bookings.create');
 Route::post('/contacto', [BookingController::class, 'store'])->name('bookings.store');
-Route::get('/contacto/{booking}/presupuesto', [BookingController::class, 'pdf'])->name('bookings.pdf');
+Route::get('/contacto/{id}/presupuesto', [BookingController::class, 'pdf'])->name('bookings.pdf');

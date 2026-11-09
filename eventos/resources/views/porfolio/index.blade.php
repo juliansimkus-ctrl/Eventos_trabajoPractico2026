@@ -14,38 +14,44 @@
 
    <!-- Sección Últimas Ambientaciones -->
    <section class="mt-16">
-        <h2 class="text-2xl font-serif font-bold text-stone-900 mb-8 border-b border-stone-200 pb-4">Nuestras últimas ambientaciones</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            @forelse ($projects as $project)
-                <article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col border border-stone-100">
-                    <!-- Contenedor de Imagen (Falsa por ahora con un color suave) -->
-                    <div class="h-48 bg-amber-100/50 flex items-center justify-center text-stone-400">
-                        <span>📷 Espacio para foto de porfolio</span>
-                    </div>
-                    
-                    <div class="p-6 flex-grow flex flex-col justify-between">
-                        <div>
-                            <span class="inline-block bg-amber-50 text-amber-800 text-xs font-semibold px-2.5 py-1 rounded-full mb-3 uppercase tracking-wider">
-                                {{ $project->category->name }}
-                            </span>
-                            <h3 class="text-lg font-bold text-stone-900 mb-2">{{ $project->title }}</h3>
-                            <p class="text-stone-600 text-sm line-clamp-3 mb-4">{{ Str::limit($project->description, 100) }}</p>
-                        </div>
-                        
-                        <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto text-xs text-stone-500">
-                            @if($project->event_date)
-                                <span>{{ $project->event_date->format('d/m/Y') }}</span>
-                            @endif
-                            <a href="#" class="text-amber-700 font-semibold hover:underline">Ver galería &rarr;</a>
-                        </div>
-                    </div>
-                </article>
-            @empty
-                <div class="col-span-3 text-center py-12 text-stone-500 bg-white rounded-2xl border border-stone-100">
-                    <p>Próximamente subiremos fotos de nuestros eventos más recientes.</p>
-                </div>
-            @endforelse
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 border-b border-stone-200 pb-4">
+    <h2 class="text-2xl font-serif font-bold text-stone-900">Nuestras últimas ambientaciones</h2>
+    
+    <!--FORM DE SELECT PARA FILTRAR EVENTOS -->
+    <form action="{{ route('porfolio.index') }}" method="GET">
+        <label for="category" class="text-sm font-semibold text-stone-700 mr-2">Tipo de evento:</label>
+                    <select name="category" id="category"
+                    class="px-4 py-2 rounded-xl border border-stone-200">
+                    <option value="">Todos</option>
+                    @foreach ($categories as $category)
+                    <option value="{{ $category->id }}"
+                    {{ request('category') == $category->id ? 'selected' : '' }}>
+                    {{ $category->name }}
+                </option>
+                @endforeach
+                    </select>
+                </form>
+        </div>
+        <div id="grilla-proyectos" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @include('porfolio._tarjetas')
         </div>
    </section>
+
+   {{-- ... grilla de tarjetas ... --}}
+   
+   <script>
+        const select = document.querySelector('#category');
+        const grilla = document.querySelector('#grilla-proyectos');
+
+        select.addEventListener('change', async () => {
+            grilla.textContent = 'Cargando...';
+            try {
+                const respuesta = await fetch(`{{ route('porfolio.filtrar') }}?category=${select.value}`);
+                if (!respuesta.ok) throw new Error();
+                grilla.innerHTML = await respuesta.text();
+            } catch {
+                grilla.textContent = 'No pudimos cargar los trabajos.';
+            }
+        });
+    </script>
 @endsection

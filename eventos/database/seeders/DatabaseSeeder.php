@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
         // Llamamos al seeder de categorías para que cree Bodas, 15 Años, etc.
         $this->call([
             EventCategorySeeder::class,
+            ProjectSeeder::class,
+            ProjectImageSeeder::class,
         ]);
     }
 }

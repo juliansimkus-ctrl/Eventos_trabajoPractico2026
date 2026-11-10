@@ -12,16 +12,41 @@
 
     <!-- Barra de Navegación -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
-        <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="text-xl font-serif font-bold tracking-wide text-amber-700">
-                <a href="/">Simkus Eventos</a>
-            </div>
-            <ul class="flex space-x-6 font-medium text-stone-600">
-                <li><a href="/" class="hover:text-amber-700 transition">Inicio</a></li>
-                <li><a href="{{ route('bookings.create') }}" class="bg-amber-700 text-white px-4 py-2 rounded-full hover:bg-amber-800 transition text-sm">Pedir Presupuesto</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="text-xl font-serif font-bold tracking-wide text-amber-700">
+            <a href="/">Simkus Eventos</a>
+        </div>
+        
+        <ul class="flex space-x-6 font-medium text-stone-600 items-center">
+            <li><a href="/porfolio" class="hover:text-amber-700 transition">Porfolio</a></li>
+            <li><a href="/contacto" class="hover:text-amber-700 transition">Contacto</a></li>
+            
+            {{-- SI EL USUARIO YA INICIÓ SESIÓN (Es la decoradora) --}}
+            @auth
+                <li>
+                    <a href="{{ route('admin.projects.create') }}" class="text-amber-700 hover:underline text-sm font-semibold">
+                        + Nueva Ambientación
+                    </a>
+                </li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="text-stone-400 hover:text-red-600 text-sm transition">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </li>
+            {{-- SI ES UN VISITANTE COMÚN (No está logueado) --}}
+            @else
+                <li>
+                    <a href="{{ route('login') }}" class="text-stone-500 hover:text-amber-700 text-sm transition">
+                        Ingresar
+                    </a>
+                </li>
+            @endauth
+        </ul>
+    </nav>
+</header>
 
     <!-- Contenido Principal -->
     <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8">

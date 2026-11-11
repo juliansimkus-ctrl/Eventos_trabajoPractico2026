@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route; 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CommentController;
 
 Route::redirect('/', '/porfolio');
 
@@ -18,8 +21,9 @@ Route::get('/contacto', [BookingController::class, 'create'])->name('bookings.cr
 Route::post('/contacto', [BookingController::class, 'store'])->name('bookings.store');
 Route::get('/contacto/{id}/presupuesto', [BookingController::class, 'pdf'])->name('bookings.pdf');
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+Route::post('/porfolio/{project}/comentarios', [CommentController::class, 'store'])->name('comments.store');
+
+
 
 // ----------------------------------------------------
 // RUTAS DE AUTENTICACIÓN (Login manual con Modelo User)

@@ -72,4 +72,20 @@ class Project extends Model
     {
         return $this->hasMany(ProjectImage::class);
     }
+
+public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+{
+    return $this->hasMany(Comment::class)->latest();
+}
+
+public function canReceiveComments(): bool
+{
+    if (!$this->event_date) {
+        return false;
+    }
+
+    $deadline = $this->event_date->copy()->addDays(7)->endOfDay();
+
+    return now()->between($this->event_date->startOfDay(), $deadline);
+}
 }

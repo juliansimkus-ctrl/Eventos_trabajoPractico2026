@@ -30,9 +30,7 @@ class ProjectController extends Controller
     */
     public function show($slug)
     {
-        $project = Project::with(['category', 'images'])
-        ->where('slug', $slug)
-        ->firstOrFail();
+    $project = Project::with(['category', 'images', 'comments'])->where('slug', $slug)->firstOrFail();
 
     return view('porfolio.show', compact('project'));
     }

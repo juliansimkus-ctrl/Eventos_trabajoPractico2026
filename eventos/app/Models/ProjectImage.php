@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class ProjectImage extends Model
 {
-   protected $fillable = ['project_id', 'ruta', 'descripcion'];
+   protected $fillable = ['project_id', 'image_path', 'descripcion'];
    
    public function project(): BelongsTo
    {
@@ -18,7 +18,7 @@ class ProjectImage extends Model
     protected function url(): Attribute
     {
         return Attribute::make(
-        get: fn () => asset('storage/' . $this->ruta)
+        get: fn () => asset('storage/' . $this->image_path)
         );
     }
 }

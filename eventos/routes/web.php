@@ -55,7 +55,7 @@ Route::post('/logout', function (Request $request) {
 // ----------------------------------------------------
 // RUTAS DE ADMINISTRACIÓN (Protegidas)
 // ----------------------------------------------------
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     // Formulario para subir nuevas ambientaciones con datos y fotos
     Route::get('/admin/proyectos/crear', [ProjectController::class, 'create'])->name('admin.projects.create');
     Route::post('/admin/proyectos', [ProjectController::class, 'store'])->name('admin.projects.store');

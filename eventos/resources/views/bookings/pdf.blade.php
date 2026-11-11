@@ -50,7 +50,7 @@
         </tr>
         <tr class="total">
             <td>TOTAL ESTIMADO</td>
-            <td class="derecha">$ {{ number_format($booking->precioEstimado(), 0, ',', '.') }}</td>
+            <td class="derecha">$ {{ number_format($booking->precio_estimado, 0, ',', '.') }}</td>
         </tr>
     </table>
 

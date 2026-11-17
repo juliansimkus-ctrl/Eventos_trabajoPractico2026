@@ -12,10 +12,10 @@ class ProjectImageSeeder extends Seeder
         // slug del proyecto => sus fotos
         $galerias = [
             'boda-de-goku-y-milk' => [
-                ['ruta' => 'projects/galeria/boda-gokumilk-1.jpeg', 'descripcion' => 'Vista general de la ambientación'],
-                ['ruta' => 'projects/galeria/boda-gokumilk-2.jpeg', 'descripcion' => 'Detalle de la decoración'],
-                ['ruta' => 'projects/galeria/boda-gokumilk-3.jpeg', 'descripcion' => null],
-                ['ruta' => 'projects/galeria/boda-gokumilk-4.jpeg', 'descripcion' => null],
+                ['image_path' => 'projects/galeria/boda-gokumilk-1.jpeg', 'descripcion' => 'Vista general de la ambientación'],
+                ['image_path' => 'projects/galeria/boda-gokumilk-2.jpeg', 'descripcion' => 'Detalle de la decoración'],
+                ['image_path' => 'projects/galeria/boda-gokumilk-3.jpeg', 'descripcion' => null],
+                ['image_path' => 'projects/galeria/boda-gokumilk-4.jpeg', 'descripcion' => null],
             ],
         ];
 

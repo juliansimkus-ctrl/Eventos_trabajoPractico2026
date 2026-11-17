@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Booking extends Model
 {
     protected $fillable = [
         'event_category_id',
-        'client_name',
-        'client_email',
-        'client_phone',
+        'user_id',
         'estimated_date',
         'estimated_guests',
         'ideas_or_details',
@@ -35,8 +34,19 @@ class Booking extends Model
     protected function precioEstimado(): Attribute
     {
         return Attribute::make(
-        get: fn () => $this->category->base_price
+            get: fn () => $this->category->base_price
                     + ($this->estimated_guests ?? 0) * $this->category->price_per_guest
-        );
+                    + $this->services->sum('price')
+            );
+    }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

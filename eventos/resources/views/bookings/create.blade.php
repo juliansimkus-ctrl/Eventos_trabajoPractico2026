@@ -49,27 +49,10 @@
 
         <!-- Campos de Datos Personales en Grid de 2 Columnas -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <label for="nombre" class="block text-sm font-semibold text-stone-700 mb-1">Nombre completo</label>
-                <input id="nombre" name="client_name" maxlength="255" value="{{ old('client_name') }}" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-stone-800 focus:ring-2 focus:ring-amber-600/20 focus:border-amber-700 outline-none transition" required>
-                @error('client_name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-            </div>
 
-            <div>
-                <label for="email" class="block text-sm font-semibold text-stone-700 mb-1">Correo electrónico</label>
-                <input id="email" type="email" name="client_email" maxlength="255" value="{{ old('client_email') }}" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-stone-800 focus:ring-2 focus:ring-amber-600/20 focus:border-amber-700 outline-none transition" required>
-                @error('client_email') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="md:col-span-1">
-                <label for="telefono" class="block text-sm font-semibold text-stone-700 mb-1">Número de teléfono</label>
-                <input id="telefono" type="tel" name="client_phone" maxlength="50" value="{{ old('client_phone') }}" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-stone-800 focus:ring-2 focus:ring-amber-600/20 focus:border-amber-700 outline-none transition">
-
-                @error('client_phone') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-            </div>
-
             <div class="md:col-span-1">
                 <label for="fecha" class="block text-sm font-semibold text-stone-700 mb-1">Fecha estimada</label>
                 <input id="fecha" type="date" name="estimated_date" value="{{ old('estimated_date') }}" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-stone-800 focus:ring-2 focus:ring-amber-600/20 focus:border-amber-700 outline-none transition" required>
@@ -87,6 +70,28 @@
             <label for="ideas" class="block text-sm font-semibold text-stone-700 mb-1">Ideas o recomendaciones para la ambientación</label>
             <textarea id="ideas" name="ideas_or_details" maxlength="2000" rows="4" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-stone-800 focus:ring-2 focus:ring-amber-600/20 focus:border-amber-700 outline-none transition resize-none" placeholder="Contanos qué colores te gustan, la temática o si es en salón/quinta..." required>{{ old('ideas_or_details') }}</textarea>
             @error('ideas_or_details') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        <!-- Servicios extra (relación N:N) -->
+         <div>
+            <span class="block text-sm font-semibold text-stone-700 mb-3">Servicios extra <span class="font-normal text-stone-400">(opcional)</span></span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                @foreach ($services as $service)
+                <label class="border border-stone-200 rounded-xl p-4 flex items-start gap-3 cursor-pointer hover:border-amber-600 transition has-[:checked]:border-amber-700 has-[:checked]:bg-amber-50/40">
+                    <input type="checkbox"
+                    name="services[]"
+                    value="{{ $service->id }}"
+                    {{ in_array($service->id, old('services', [])) ? 'checked' : '' }}
+                    class="mt-1 text-amber-700 focus:ring-amber-600 border-stone-300 rounded">
+            <div>
+                <strong class="block text-sm text-stone-900">{{ $service->name }}</strong>
+                <p class="text-xs text-stone-500 mt-1">{{ $service->description }}</p>
+                <p class="text-xs font-semibold text-amber-700 mt-1">+ $ {{ number_format($service->price, 0, ',', '.') }}</p>
+            </div>
+            </label>
+            @endforeach
+        </div>
+            @error('services.*') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         <div class="pt-4">

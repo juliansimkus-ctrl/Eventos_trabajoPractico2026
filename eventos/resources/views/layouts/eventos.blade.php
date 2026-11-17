@@ -27,34 +27,45 @@
         
         <ul class="flex space-x-6 font-medium text-stone-600 items-center">
             <li><a href="/porfolio" class="hover:text-amber-700 transition">Porfolio</a></li>
-            <li><a href="/contacto" class="hover:text-amber-700 transition">Contacto</a></li>
+
             
-            {{-- SI EL USUARIO YA INICIÓ SESIÓN (Es la decoradora) --}}
+            {{-- SI EL USUARIO YA INICIÓ SESIÓN --}}
             @auth
-                <li>
-                    <a href="{{ route('admin.projects.create') }}" class="text-amber-700 hover:underline text-sm font-semibold">
-                        + Nueva Ambientación
-                    </a>
-                </li>
-                <li>
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" class="text-stone-400 hover:text-red-600 text-sm transition">
-                            Cerrar Sesión
-                        </button>
-                    </form>
-                </li>
-            {{-- SI ES UN VISITANTE COMÚN (No está logueado) --}}
-            @else
-                <li>
-                    <a href="{{ route('login') }}" class="text-stone-500 hover:text-amber-700 text-sm transition">
-                        Ingresar
-                    </a>
-                </li>
-            @endauth
+            <li><a href="/contacto" class="hover:text-amber-700 transition">Contacto</a></li>
+            {{-- Solo la admin ve las opciones de administración --}}
+            @if (auth()->user()->esAdmin())
+            <li>
+                <a href="{{ route('admin.projects.create') }}" class="text-amber-700 hover:underline text-sm font-semibold">
+                + Nueva Ambientación
+            </a>
+        </li>
+        @endif
+        
+        {{-- Todos los logueados ven su nombre y el botón de salir --}}
+        <li class="text-sm text-stone-500">Hola, {{ auth()->user()->name }}</li>
+        <li>
+            <form action="{{ route('logout') }}" method="POST" class="inline">
+            @csrf
+            <button type="submit" class="text-stone-400 hover:text-red-600 text-sm transition">
+                Cerrar sesión
+            </button>
+        </form>
+    </li>
+    @else
+    <li>
+        <a href="{{ route('login') }}" class="text-stone-500 hover:text-amber-700 text-sm transition">
+            Ingresar
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('register.show') }}" class="text-stone-500 hover:text-amber-700 text-sm transition">
+            Registrate
+        </a>
+    </li>
+    @endauth
         </ul>
     </nav>
-</header>
+    </header>
 
     <!-- Contenido Principal -->
     <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8">

@@ -18,6 +18,15 @@ class UserSeeder extends Seeder
             'name' => 'Decoradora Administradora',
             'email' => 'admin@simkus.com',
             'password' => Hash::make('admin1234'), // Contraseña encriptada segura
+            'role'     => 'admin',
         ]);
+
+         // Un cliente de prueba
+         User::create([
+            'name'     => 'Cliente de Prueba',
+            'email'    => 'cliente@simkus.com',
+            'password' => Hash::make('cliente1234'),
+            'role'     => 'cliente',
+            ]);
     }
 }

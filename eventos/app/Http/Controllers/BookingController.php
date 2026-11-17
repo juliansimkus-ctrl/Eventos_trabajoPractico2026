@@ -7,16 +7,20 @@ use App\Models\EventCategory;
 use Illuminate\Http\Request;
 //para usar la liibreria
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Service;
+use Illuminate\Support\Arr;
 
 class BookingController extends Controller
 {
     /**
-     * Muestra el formulario de contacto/cotización.
+     * Muestra el formulario de contacto/cotización, mas los servicios.
      */
     public function create()
     {
         $categories = EventCategory::all();
-        return view('bookings.create', compact('categories'));
+        $services = Service::all();
+        
+        return view('bookings.create', compact('categories', 'services'));
     }
 
     /**
@@ -24,22 +28,21 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        // Validamos estrictamente los datos que entran de la web
         $validated = $request->validate([
             'event_category_id' => 'required|exists:event_categories,id',
-            'client_name'       => 'required|string|max:255',
-            'client_email'      => 'required|email|max:255',
-            'client_phone'      => 'nullable|string|max:50',
-            'estimated_date'    => 'required|date|after:today', // La fiesta debe ser a futuro
+            'estimated_date'    => 'required|date|after:today',
             'estimated_guests'  => 'required|integer|min:1|max:350',
             'ideas_or_details'  => 'nullable|string|max:2000',
+            'services'          => 'nullable|array',
+            'services.*'        => 'integer|exists:services,id',
         ]);
         
-        // Guardamos la solicitud y nos quedamos con el Booking creado (incluye su id)
-        // guarda en la base y devuelve el objeto creado, que ya tiene el id que le asignó la base.
-        $booking = Booking::create($validated);
+        // Creo la solicitud A TRAVÉS del usuario logueado: el user_id se completa solo
+        $booking = auth()->user()->bookings()->create(Arr::except($validated, ['services']));
+
+        // N:N: guardo en booking_service un par por cada servicio elegido
+        $booking->services()->attach($validated['services'] ?? []);
         
-        // Redirigimos al presupuesto en PDF de esa solicitud
         return redirect()->route('bookings.pdf', $booking->id);
     }
     
@@ -49,7 +52,7 @@ class BookingController extends Controller
     public function pdf($id)
     {
         // Buscamos la solicitud por su id; si no existe, Laravel responde 404
-        $booking = Booking::findOrFail($id);
+        $booking = Booking::with(['category', 'services', 'user'])->findOrFail($id);
         
         $pdf = Pdf::loadView('bookings.pdf', compact('booking'));
         

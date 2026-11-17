@@ -9,10 +9,6 @@ class Comment extends Model
 {
     protected $fillable = ['project_id', 'author_name', 'content'];
 
-    protected $casts = [
-        'expires_at' => 'datetime',
-    ];
-
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);

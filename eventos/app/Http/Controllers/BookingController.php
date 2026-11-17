@@ -50,12 +50,45 @@ class BookingController extends Controller
      ** Genera y muestra el presupuesto en PDF de una solicitud.
      */
     public function pdf($id)
+{
+    $booking = Booking::with(['category', 'services', 'user'])->findOrFail($id);
+
+    // Solo el dueño del presupuesto o un administrador pueden ver este PDF
+    if (!auth()->user()->esAdmin() && $booking->user_id !== auth()->id()) {
+        abort(403, 'No tenés permiso para ver este presupuesto.');
+    }
+
+    $pdf = Pdf::loadView('bookings.pdf', compact('booking'));
+
+    return $pdf->stream('presupuesto-' . $booking->id . '.pdf');
+   }
+
+       /**
+     * Muestra el listado de todas las solicitudes de presupuesto (Solo Admin).
+     */
+    public function index()
     {
-        // Buscamos la solicitud por su id; si no existe, Laravel responde 404
-        $booking = Booking::with(['category', 'services', 'user'])->findOrFail($id);
-        
-        $pdf = Pdf::loadView('bookings.pdf', compact('booking'));
-        
-        return $pdf->stream('presupuesto-' . $booking->id . '.pdf');
-        }
+        $bookings = Booking::with(['user', 'category', 'services'])
+            ->latest()
+            ->get();
+
+        return view('bookings.index', compact('bookings'));
+    }
+
+    /**
+     * Actualiza el estado de una solicitud (pendiente, aprobado, rechazado).
+     */
+    public function updateStatus(Request $request, Booking $booking)
+    {
+    $validated = $request->validate([
+        'status' => 'required|in:pending,contacted,budgeted,cancelled',
+    ]);
+
+    $booking->update([
+        'status' => $validated['status'],
+    ]);
+
+    return back()->with('success', 'Estado del presupuesto #' . $booking->id . ' actualizado.');
+    }
 }
+

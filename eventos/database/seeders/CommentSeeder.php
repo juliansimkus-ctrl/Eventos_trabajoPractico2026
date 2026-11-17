@@ -8,17 +8,16 @@ use Illuminate\Database\Seeder;
 
 class CommentSeeder extends Seeder
 {
-    public function run(): void
-    {
-        $projects = Project::whereNotNull('event_date')->get();
+public function run(): void
+{
+    $projects = Project::whereNotNull('event_date')->get();
 
-        foreach ($projects as $project) {
-            Comment::create([
-                'project_id'  => $project->id,
-                'author_name' => 'Invitado de prueba',
-                'content'     => '¡Hermosa ambientación! Cada detalle estuvo increíble.',
-                'expires_at'  => $project->event_date->copy()->addDays(7)->endOfDay(),
-            ]);
-        }
+    foreach ($projects as $project) {
+        Comment::create([
+            'project_id'  => $project->id,
+            'author_name' => 'Invitado de prueba',
+            'content'     => '¡Hermosa ambientación! Cada detalle estuvo increíble.',
+        ]);
     }
+}
 }

@@ -1,16 +1,12 @@
 <?php
 
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-=======
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route; 
->>>>>>> karym
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CommentController;
+
 
 
 Route::redirect('/', '/porfolio');
@@ -23,49 +19,9 @@ Route::get('/porfolio/{slug}', [ProjectController::class, 'show'])->name('porfol
 Route::get('/api/proyectos', [ProjectController::class, 'filtrar'])->name('porfolio.filtrar');
 
 // Rutas del Formulario de Cotizacion
-<<<<<<< HEAD
-Route::get('/contacto', [BookingController::class, 'create'])->name('bookings.create');
-Route::post('/contacto', [BookingController::class, 'store'])->name('bookings.store');
-Route::get('/contacto/{id}/presupuesto', [BookingController::class, 'pdf'])->name('bookings.pdf');
-
-Route::post('/porfolio/{project}/comentarios', [CommentController::class, 'store'])->name('comments.store');
-
-
-
-// ----------------------------------------------------
-// RUTAS DE AUTENTICACIÓN (Login manual con Modelo User)
-// ----------------------------------------------------
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login')->middleware('guest');
-
-Route::post('/login', function (Request $request) {
-    $credentials = $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required'],
-    ]);
-
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        return redirect()->intended(route('porfolio.index'));
-    }
-
-    return back()->withErrors([
-        'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
-    ])->onlyInput('email');
-})->name('login.store');
-
-Route::post('/logout', function (Request $request) {
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
-    return redirect('/');
-})->name('logout');
-=======
 Route::get('/contacto', [BookingController::class, 'create'])->name('bookings.create')->middleware('auth');
 Route::post('/contacto', [BookingController::class, 'store'])->name('bookings.store')->middleware('auth');
 Route::get('/contacto/{id}/presupuesto', [BookingController::class, 'pdf'])->name('bookings.pdf')->middleware('auth');
->>>>>>> karym
 
 
 //rutas para loguearse y desloguearse
@@ -81,3 +37,23 @@ Route::post('/register', [AuthController::class, 'storeRegister']) -> name('regi
 //rutas para crear formularios
 Route::get('/admin/proyectos/crear', [ProjectController::class, 'create'])->name('admin.projects.create')->middleware(['auth', 'admin']);
 Route::post('/admin/proyectos', [ProjectController::class, 'store'])->name('admin.projects.store')->middleware(['auth', 'admin']);
+
+// Rutas para administrar, editar y eliminar proyectos
+Route::get('/admin/proyectos', [ProjectController::class, 'adminIndex'])->name('admin.projects.index')->middleware(['auth', 'admin']);
+Route::get('/admin/proyectos/{project}/editar', [ProjectController::class, 'edit'])->name('admin.projects.edit')->middleware(['auth', 'admin']);
+Route::put('/admin/proyectos/{project}', [ProjectController::class, 'update'])->name('admin.projects.update')->middleware(['auth', 'admin']);
+Route::delete('/admin/proyectos/{project}', [ProjectController::class, 'destroy'])->name('admin.projects.destroy')->middleware(['auth', 'admin']);
+
+// comentarios 
+Route::post('/porfolio/{project}/comentarios', [CommentController::class, 'store'])->name('comments.store');
+
+// Gestión de Solicitudes de Presupuesto (Solo Admin)
+Route::get('/admin/presupuestos', [BookingController::class, 'index'])->name('admin.bookings.index')->middleware(['auth', 'admin']);
+Route::patch('/admin/presupuestos/{booking}/estado', [BookingController::class, 'updateStatus'])->name('admin.bookings.status')->middleware(['auth', 'admin']);
+
+// Gestión de Servicios (Solo Admin)
+Route::get('/admin/servicios', [ServiceController::class, 'index'])->name('admin.services.index')->middleware(['auth', 'admin']);
+Route::post('/admin/servicios', [ServiceController::class, 'store'])->name('admin.services.store')->middleware(['auth', 'admin']);
+Route::get('/admin/servicios/{service}/editar', [ServiceController::class, 'edit'])->name('admin.services.edit')->middleware(['auth', 'admin']);
+Route::put('/admin/servicios/{service}', [ServiceController::class, 'update'])->name('admin.services.update')->middleware(['auth', 'admin']);
+Route::delete('/admin/servicios/{service}', [ServiceController::class, 'destroy'])->name('admin.services.destroy')->middleware(['auth', 'admin']);

@@ -1,0 +1,37 @@
+<?php
+
+return [
+    'palabras_prohibidas' => [
+        // Insultos comunes y variantes (Argentina / Español)
+        'boludo', 'boluda', 'boludos', 'boludas', 'boludez',
+        'pelotudo', 'pelotuda', 'pelotudos', 'pelotudas', 'pelotudez',
+        'forro', 'forra', 'forros', 'forras',
+        'hdp', 'hijodeputa', 'hijadeputa', 'hijosdeputa',
+        'puto', 'puta', 'putos', 'putas', 'puteada',
+        'mierda', 'mierdas', 'cagada', 'cagadas', 'cagar', 'cagon', 'cagona',
+        'garca', 'garcas', 'chanta', 'chantas',
+        'estafador', 'estafadora', 'estafadores', 'estafa',
+        'ladron', 'ladrona', 'ladrones', 'chorro', 'chorra', 'chorros',
+        'basura', 'porqueria', 'asqueroso', 'asquerosa',
+        'idiota', 'idiotas', 'imbecil', 'imbeciles',
+        'estupido', 'estupida', 'estupidos', 'estupidas',
+        'tarado', 'tarada', 'tarados', 'taradas',
+        'mogolico', 'mogolica', 'mogolicos', 'mogolicas',
+        'retrasado', 'retrasada', 'subnormal',
+        'inutil', 'inutiles', 'fracasado', 'fracasada',
+        'payaso', 'payasa', 'ridiculo', 'ridicula',
+        'sorete', 'soretes', 'gil', 'giles', 'gilada',
+        'pajero', 'pajera', 'pajeros', 'pajeras',
+        'concha', 'conchuda', 'conchudo',
+        'pija', 'pijas', 'verga', 'vergas', 'chota', 'choto',
+        'orto', 'ortiva', 'ortivas',
+        'culiado', 'culiada', 'culiados', 'culiadas', 'culiao',
+        'cabron', 'cabrona', 'cabrones',
+        'pendejo', 'pendeja', 'pendejos', 'pendejas',
+        'malparido', 'malparida', 'malparidos',
+        'perra', 'zorra', 'prostituta',
+        'maricon', 'maricones', 'trolo', 'trola',
+        'negrodemierda', 'villero', 'villera', 'planero', 'planera',
+        'nazi', 'nazis', 'hitler',
+    ],
+];

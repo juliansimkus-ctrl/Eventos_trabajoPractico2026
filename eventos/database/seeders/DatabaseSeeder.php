@@ -12,12 +12,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Llamamos al seeder de categorías para que cree Bodas, 15 Años, etc.
-        $this->call([
-            UserSeeder::class,
-            EventCategorySeeder::class,
-            ServiceSeeder::class,
-            ProjectSeeder::class,
-            ProjectImageSeeder::class,
-        ]);
+    $this->call([
+    UserSeeder::class,
+    EventCategorySeeder::class,
+    ServiceSeeder::class,
+    ProjectSeeder::class,
+    ProjectImageSeeder::class,
+    CommentSeeder::class,
+    BookingSeeder::class, // <-- Al final de todo
+    ]); 
     }
 }

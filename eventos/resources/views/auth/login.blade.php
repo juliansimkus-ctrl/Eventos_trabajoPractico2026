@@ -70,6 +70,12 @@
             </div>
         </form>
 
+        <div class="text-center mt-6">
+        <p>¿Aun no tenes cuenta en Simkus Eventos?
+            <a href="{{ route('register.show') }}" class="text-sm text-stone-400 hover:text-amber-700 transition flex items-center justify-center space-x-1">
+                Registrate.</a>
+        </p>
+        </div>
     </div>
 
     <!-- Enlace de retorno estético por debajo del contenedor -->

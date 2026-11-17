@@ -21,9 +21,9 @@
 
     <h3>Datos del cliente</h3>
     <table>
-        <tr><td><strong>Nombre</strong></td><td>{{ $booking->client_name }}</td></tr>
-        <tr><td><strong>Email</strong></td><td>{{ $booking->client_email }}</td></tr>
-        <tr><td><strong>Teléfono</strong></td><td>{{ $booking->client_phone ?? 'No informado' }}</td></tr>
+        <tr><td><strong>Nombre</strong></td><td>{{ $booking->user->name }}</td></tr>
+        <tr><td><strong>Email</strong></td><td>{{ $booking->user->email }}</td></tr>
+        <tr><td><strong>Teléfono</strong></td><td>{{ $booking->user->phone ?? 'No informado' }}</td></tr>
     </table>
 
     <h3>Datos del evento</h3>
@@ -48,6 +48,12 @@
             <td>{{ $booking->estimated_guests ?? 0 }} invitados × $ {{ number_format($booking->category->price_per_guest, 0, ',', '.') }}</td>
             <td class="derecha">$ {{ number_format(($booking->estimated_guests ?? 0) * $booking->category->price_per_guest, 0, ',', '.') }}</td>
         </tr>
+        @foreach ($booking->services as $service)
+        <tr>
+            <td>Servicio extra - {{ $service->name }}</td>
+            <td class="derecha">$ {{ number_format($service->price, 0, ',', '.') }}</td>
+        </tr>
+        @endforeach
         <tr class="total">
             <td>TOTAL ESTIMADO</td>
             <td class="derecha">$ {{ number_format($booking->precio_estimado, 0, ',', '.') }}</td>

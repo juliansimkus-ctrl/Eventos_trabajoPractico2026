@@ -6,9 +6,15 @@
        <h1 class="text-5xl font-serif font-bold text-stone-900 mb-4 tracking-tight">Simkus Eventos</h1>
        <p class="text-xl text-stone-600 font-light italic max-w-md mx-auto">Decoramos tus momentos felices.</p>
        <div class="mt-8">
+        @auth
            <a href="{{ route('bookings.create') }}" class="inline-block bg-amber-700 text-white font-semibold px-8 py-3 rounded-full hover:bg-amber-800 shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
                Pedí tu presupuesto gratuito
            </a>
+        @else
+            <a href="{{ route('bookings.create') }}" class="inline-block bg-amber-700 text-white font-semibold px-8 py-3 rounded-full hover:bg-amber-800 shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
+                Inicia sesion para pedir presupuesto.
+            </a>
+        @endauth
        </div>
    </section>
 

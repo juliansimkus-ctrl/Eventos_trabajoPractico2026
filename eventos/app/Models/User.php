@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
         'role',
     ];
 
@@ -51,5 +52,10 @@ class User extends Authenticatable
     public function esAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
     }
 }

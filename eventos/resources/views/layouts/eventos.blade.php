@@ -7,6 +7,14 @@
     
     <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+    img {
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none; /* Bloquea el menú al mantener apretado en móviles */
+    }
+    </style>
 </head>
 <body class="bg-stone-50 text-stone-800 font-sans min-h-screen flex flex-col">
 
@@ -57,6 +65,23 @@
     <footer class="bg-stone-900 text-stone-400 py-6 mt-12 text-center text-sm border-t border-stone-800">
         <p>&copy; {{ date('Y') }} Simkus Eventos. Todos los derechos reservados.</p>
     </footer>
+
+    // Un poco mas de seguridad mediante javaScript para evitar que puedan descargar las imágenes de la galería del evento. Esto no es 100% seguro, pero ayuda a disuadir a usuarios menos experimentados.
+    <script>
+    // 1. Evita el menú contextual (clic derecho) sobre cualquier imagen
+    document.addEventListener('contextmenu', function (e) {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+        }
+    });
+
+    // 2. Evita que puedan arrastrar la imagen hacia otra pestaña o al escritorio
+    document.addEventListener('dragstart', function (e) {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+        }
+    });
+    </script>
 
 </body>
 </html>

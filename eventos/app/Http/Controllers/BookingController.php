@@ -49,19 +49,35 @@ class BookingController extends Controller
     /**
      ** Genera y muestra el presupuesto en PDF de una solicitud.
      */
-    public function pdf($id)
-{
-    $booking = Booking::with(['category', 'services', 'user'])->findOrFail($id);
+        /**
+     * Muestra únicamente los presupuestos del usuario logueado.
+     */
+    public function misPresupuestos()
+    {
+        $bookings = auth()->user()->bookings()
+            ->with(['category', 'services'])
+            ->latest()
+            ->get();
 
-    // Solo el dueño del presupuesto o un administrador pueden ver este PDF
-    if (!auth()->user()->esAdmin() && $booking->user_id !== auth()->id()) {
-        abort(403, 'No tenés permiso para ver este presupuesto.');
+        return view('bookings.mine', compact('bookings'));
     }
 
-    $pdf = Pdf::loadView('bookings.pdf', compact('booking'));
+    /**
+     * Genera y muestra el presupuesto en PDF (solo para el dueño o el admin).
+     */
+    public function pdf($id)
+    {
+        $booking = Booking::with(['category', 'services', 'user'])->findOrFail($id);
 
-    return $pdf->stream('presupuesto-' . $booking->id . '.pdf');
-   }
+        // Si no es administrador y el presupuesto no le pertenece, bloqueamos el acceso
+        if (!auth()->user()->esAdmin() && $booking->user_id !== auth()->id()) {
+            abort(403, 'No tenés permiso para visualizar este presupuesto.');
+        }
+
+        $pdf = Pdf::loadView('bookings.pdf', compact('booking'));
+
+        return $pdf->stream('presupuesto-' . $booking->id . '.pdf');
+    }
 
        /**
      * Muestra el listado de todas las solicitudes de presupuesto (Solo Admin).

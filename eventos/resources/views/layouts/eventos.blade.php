@@ -50,13 +50,19 @@
                             Servicios
                         </a>
                     </li>
-                @else
-                    <li>
-                        <a href="{{ route('bookings.create') }}" class="bg-amber-700 text-white px-4 py-2 rounded-full hover:bg-amber-800 transition">
-                            Pedir Presupuesto
-                        </a>
-                    </li>
-                @endif
+                     @else
+                        {{-- Opciones para clientes logueados --}}
+                        <li>
+                            <a href="{{ route('bookings.mine') }}" class="text-stone-800 hover:text-amber-700 font-semibold transition">
+                                Mis Presupuestos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('bookings.create') }}" class="bg-amber-700 text-white px-4 py-2 rounded-full hover:bg-amber-800 transition">
+                                Pedir Presupuesto
+                             </a>
+                        </li>
+                    @endif
 
                 <li>
                     <form action="{{ route('logout') }}" method="POST" class="inline">

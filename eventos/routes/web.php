@@ -33,6 +33,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::get('/register', [AuthController::class, 'showRegister']) -> name('register.show')->middleware('guest');
 Route::post('/register', [AuthController::class, 'storeRegister']) -> name('register.store')->middleware('guest');
 
+// Historial de presupuestos del cliente logueado
+Route::get('/mis-presupuestos', [BookingController::class, 'misPresupuestos'])->name('bookings.mine')->middleware('auth');
 
 //rutas para crear formularios
 Route::get('/admin/proyectos/crear', [ProjectController::class, 'create'])->name('admin.projects.create')->middleware(['auth', 'admin']);

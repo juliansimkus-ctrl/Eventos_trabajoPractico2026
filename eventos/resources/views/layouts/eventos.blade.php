@@ -70,6 +70,11 @@
                             Servicios
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.categories.index') }}" class="text-stone-800 hover:text-amber-700 font-semibold transition">
+                            Categorías
+                        </a>
+                    </li>
                      @else
                         {{-- Opciones para clientes logueados --}}
                         <li>
@@ -93,7 +98,9 @@
                     </form>
                 </li>
             @else
-                <li><a href="{{ route('login') }}" class="hover:text-amber-700 transition">Ingresar</a></li>
+                <li><a href="{{ route('login') }}" class="hover:text-amber-700 transition">
+                    Ingresar    
+                    </a></li>
                 <li>
                     <a href="{{ route('register.show') }}" class="bg-stone-900 text-white px-4 py-2 rounded-full hover:bg-stone-800 transition">
                         Registrarse

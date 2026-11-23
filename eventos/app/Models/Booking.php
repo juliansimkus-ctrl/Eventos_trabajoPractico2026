@@ -30,16 +30,6 @@ class Booking extends Model
         return $this->belongsTo(EventCategory::class, 'event_category_id');
     }
 
-    //calculamos el precio estimado
-    protected function precioEstimado(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->category->base_price
-                    + ($this->estimated_guests ?? 0) * $this->category->price_per_guest
-                    + $this->services->sum('price')
-            );
-    }
-
     public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class);
@@ -48,5 +38,15 @@ class Booking extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    //calculamos el precio estimado
+    protected function precioEstimado(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->category->base_price
+                    + ($this->estimated_guests ?? 0) * $this->category->price_per_guest
+                    + $this->services->sum('price')
+            );
     }
 }

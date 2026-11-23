@@ -8,11 +8,14 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class ProjectImage extends Model
 {
-   protected $fillable = ['project_id', 'image_path', 'descripcion'];
-   
-   public function project(): BelongsTo
-   {
-    return $this->belongsTo(Project::class);
+    protected $fillable = [
+        'project_id', 
+        'image_path', 
+        'descripcion'];
+        
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
     }
 
     protected function url(): Attribute

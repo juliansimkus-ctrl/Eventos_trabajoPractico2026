@@ -8,41 +8,53 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    /**SECCION DE LOGIN */
+
+    //muestra la vista para iniciar sesion
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    public function storeLogin(Request $request) {
-    $credentials = $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required'],
-    ]);
+    // guarda la sesion iniciada
+    public function storeLogin(Request $request) 
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+            ]);
+            
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            
+            return redirect()->intended(route('porfolio.index'));
+            }
+            
+        return back()->withErrors([
+            'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
+            ])->onlyInput('email');
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        return redirect()->intended(route('porfolio.index'));
     }
 
-    return back()->withErrors([
-        'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
-    ])->onlyInput('email');
-
-    }
-
-    public function logout(Request $request) {
+    public function logout(Request $request) 
+    {
         Auth::logout();
+        
         $request->session()->invalidate();
+        
         $request->session()->regenerateToken();
         
         return redirect('/');
     }
 
+    /**SECCION DE REGISTRO */
+    //muestra la vista para registrarse
     public function showRegister()
     {
         return view('auth.register');
     }
     
+    //guarda el registro
     public function storeRegister(Request $request)
     {
         // 1. Validar

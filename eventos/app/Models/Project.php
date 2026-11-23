@@ -29,6 +29,8 @@ class Project extends Model
         'event_date' => 'date',
     ];
 
+    //RELACIONES
+
     /**
      * El proyecto pertenece a una categoría de evento.
      */
@@ -36,6 +38,19 @@ class Project extends Model
     {
         return $this->belongsTo(EventCategory::class, 'event_category_id');
     }
+
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProjectImage::class);
+    }
+    
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class)->latest();
+    }
+
+    //ATRIBUTOS INTELIGENTES
 
     protected function imageUrl(): Attribute
     {
@@ -54,6 +69,7 @@ class Project extends Model
         );
     }
 
+    //SCOPES
     #[Scope]
     protected function deCategoria(Builder $query, $categoriaId): void
     {
@@ -67,25 +83,16 @@ class Project extends Model
     {
         $query->where('is_featured', true);
     }
+    
 
-    public function images(): HasMany
+    public function canReceiveComments(): bool
     {
-        return $this->hasMany(ProjectImage::class);
-    }
-
-public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
-{
-    return $this->hasMany(Comment::class)->latest();
-}
-
-public function canReceiveComments(): bool
-{
-    if (!$this->event_date) {
+        if (!$this->event_date) {
         return false;
+        }
+        
+        $deadline = $this->event_date->copy()->addDays(7)->endOfDay();
+        
+        return now()->between($this->event_date->copy()->startOfDay(), $deadline);
     }
-
-    $deadline = $this->event_date->copy()->addDays(7)->endOfDay();
-
-    return now()->between($this->event_date->startOfDay(), $deadline);
-}
 }

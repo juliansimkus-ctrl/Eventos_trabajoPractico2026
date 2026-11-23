@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Comment extends Model
 {
-    protected $fillable = ['project_id', 'author_name', 'content'];
+    protected $fillable = [
+        'project_id', 
+        'author_name', 
+        'content'];
 
     public function project(): BelongsTo
     {

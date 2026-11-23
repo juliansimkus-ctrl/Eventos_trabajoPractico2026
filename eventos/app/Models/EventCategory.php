@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class EventCategory extends Model
 {
     // Permitimos la asignación masiva de estos campos
-    protected $fillable = ['name', 'slug', 'description', 'base_price', 'price_per_guest'];
+    protected $fillable = [
+        'name', 
+        'slug', 
+        'description', 
+        'base_price', 
+        'price_per_guest'];
+    
 
     /**
      * Una categoría tiene muchos proyectos en el porfolio.

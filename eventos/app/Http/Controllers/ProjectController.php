@@ -16,12 +16,12 @@ class ProjectController extends Controller
      */
     public function index()
     {
-    // traigo todas las categorías para armar las opciones del select
-    $categories = EventCategory::all();
-
-    $projects = Project::with('category')->latest()->get();
-
-    return view('porfolio.index', compact('projects', 'categories'));
+        // traigo todas las categorías para armar las opciones del select
+        $categories = EventCategory::all();
+        
+        $projects = Project::with('category')->latest()->get();
+        
+        return view('porfolio.index', compact('projects', 'categories'));
     }
 
 
@@ -31,9 +31,9 @@ class ProjectController extends Controller
     */
     public function show($slug)
     {
-    $project = Project::with(['category', 'images', 'comments'])->where('slug', $slug)->firstOrFail();
-
-    return view('porfolio.show', compact('project'));
+        $project = Project::with(['category', 'images', 'comments'])->where('slug', $slug)->firstOrFail();
+        
+        return view('porfolio.show', compact('project'));
     }
     
 

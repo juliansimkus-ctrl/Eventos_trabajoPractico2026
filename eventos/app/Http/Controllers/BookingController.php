@@ -12,6 +12,7 @@ use Illuminate\Support\Arr;
 
 class BookingController extends Controller
 {
+
     /**
      * Muestra el formulario de contacto/cotización, mas los servicios.
      */
@@ -22,6 +23,7 @@ class BookingController extends Controller
         
         return view('bookings.create', compact('categories', 'services'));
     }
+
 
     /**
      * Procesa y guarda la solicitud del cliente.
@@ -46,17 +48,16 @@ class BookingController extends Controller
         return redirect()->route('bookings.pdf', $booking->id);
     }
     
+
+
     /**
-     ** Genera y muestra el presupuesto en PDF de una solicitud.
-     */
-        /**
      * Muestra únicamente los presupuestos del usuario logueado.
      */
     public function misPresupuestos()
     {
         $bookings = auth()->user()->bookings()
             ->with(['category', 'services'])
-            ->latest()
+             ->latest()
             ->get();
 
         return view('bookings.mine', compact('bookings'));
@@ -79,7 +80,7 @@ class BookingController extends Controller
         return $pdf->stream('presupuesto-' . $booking->id . '.pdf');
     }
 
-       /**
+    /**
      * Muestra el listado de todas las solicitudes de presupuesto (Solo Admin).
      */
     public function index()
@@ -91,20 +92,20 @@ class BookingController extends Controller
         return view('bookings.index', compact('bookings'));
     }
 
+
     /**
      * Actualiza el estado de una solicitud (pendiente, aprobado, rechazado).
      */
     public function updateStatus(Request $request, Booking $booking)
     {
-    $validated = $request->validate([
-        'status' => 'required|in:pending,contacted,budgeted,cancelled',
-    ]);
-
-    $booking->update([
-        'status' => $validated['status'],
-    ]);
-
-    return back()->with('success', 'Estado del presupuesto #' . $booking->id . ' actualizado.');
+        $validated = $request->validate([
+            'status' => 'required|in:pending,contacted,budgeted,cancelled',
+        ]);
+        
+        $booking->update([
+            'status' => $validated['status'],
+        ]);
+        
+        return back()->with('success', 'Estado del presupuesto #' . $booking->id . ' actualizado.');
     }
 }
-

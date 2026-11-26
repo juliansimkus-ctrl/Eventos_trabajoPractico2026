@@ -138,8 +138,8 @@
     });
 
     // 3. Menú desplegable
-const btnMenu   = document.querySelector('#btn-menu');
-const btnCerrar = document.querySelector('#btn-cerrar');
+    const btnMenu   = document.querySelector('#btn-menu');
+    const btnCerrar = document.querySelector('#btn-cerrar');
 const panel     = document.querySelector('#menu-panel');
 const fondo     = document.querySelector('#menu-fondo');
 

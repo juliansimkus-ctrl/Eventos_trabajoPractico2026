@@ -47,6 +47,12 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
+        if ($service->bookings()->exists()) {
+            return back()->withErrors([
+                'error' => 'No se puede eliminar este servicio porque tiene presupuestos asociados.'
+            ]);
+        }
+
         $service->delete();
 
         return back()->with('success', 'El servicio fue eliminado.');
